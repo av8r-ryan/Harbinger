@@ -201,7 +201,7 @@ Choose an Ollama endpoint on your own network for local inference. Claude CLI re
 
 The application polls all configured feeds on `POLL_INTERVAL_MS` (one hour by default). Counts vary over time. CISA KEV requires no authentication; URLhaus and ThreatFox use the Auth-Key from [auth.abuse.ch](https://auth.abuse.ch/).
 
-Feed requests retain their 30-second deadline through response-body reads. See [feed request deadlines](docs/feed-request-deadlines.md) for cancellation behavior, offline evidence and limits.
+Feed requests retain their 30-second deadline through response-body reads. Synchronous JSON parsing and database work have no execution deadline in this change. See [feed request deadlines](docs/feed-request-deadlines.md) for cancellation behavior, offline evidence and limits.
 
 ## Auto-Defanged Output
 
