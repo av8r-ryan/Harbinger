@@ -120,7 +120,11 @@ cd ../..
 ./manage.sh start
 ```
 
-Open http://localhost:5174
+Open http://127.0.0.1:5174. The API and Vite client bind to loopback by default.
+The client calls the same-origin `/api` path; Vite forwards it to the local API.
+For remote access, configure an authenticated reverse proxy and the exact allowed
+browser origin and hostnames described in [network boundaries](docs/network-boundaries.md).
+These request checks reduce exposure; they do not authenticate users.
 
 Feeds begin polling immediately. CISA KEV loads known exploited CVEs, URLhaus adds malicious URLs, and ThreatFox adds IOCs with malware attribution. Initial population depends on network availability and feed authentication.
 
