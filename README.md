@@ -255,6 +255,11 @@ Harbinger downloads the public KEV catalog and sends CVE IDs to FIRST.org. Wazuh
 
 ## Manage Script
 
+For the optional Wazuh inventory connection, see [Wazuh HTTPS trust](docs/wazuh-tls.md)
+before starting. Certificate and hostname verification are enabled by default;
+private deployments can configure a CA certificate bundle without weakening
+other outbound connections.
+
 ```bash
 ./manage.sh start    # Start server + client
 ./manage.sh stop     # Stop all processes

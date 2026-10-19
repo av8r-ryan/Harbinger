@@ -24,6 +24,8 @@
  * malformed evidence stays unknown rather than becoming confirmed absence.
  */
 
+import { wazuhTransport } from './wazuh-transport';
+
 /** One affected installation of a CVE on one host. */
 export interface WazuhCveInstance {
   agentName: string;
@@ -107,10 +109,9 @@ export function isWazuhConfigured(): boolean {
 /**
  * POST a search to the Wazuh dashboard console proxy.
  *
- * The dashboard uses a self-signed cert on the LAN, so verification is
- * disabled for this host only. That is acceptable for a LAN appliance and is
- * the same thing every other tool in the homelab does; it is NOT a pattern to
- * copy for internet hosts.
+ * Verify the configured HTTPS server by default. Private CA trust and the
+ * explicit development exception are scoped to this request; redirects are
+ * refused so neither credentials nor the exception reach another endpoint.
  */
 async function search(body: unknown, timeoutMs: number): Promise<any> {
   const { url, user, password } = config();
@@ -120,8 +121,9 @@ async function search(body: unknown, timeoutMs: number): Promise<any> {
     );
   }
 
+  const transport = await wazuhTransport(url);
   const endpoint =
-    `${url.replace(/\/$/, '')}/api/console/proxy` +
+    `${transport.url.href.replace(/\/$/, '')}/api/console/proxy` +
     `?path=${encodeURIComponent(`${VULN_INDEX}/_search`)}&method=POST`;
 
   const controller = new AbortController();
@@ -136,9 +138,9 @@ async function search(body: unknown, timeoutMs: number): Promise<any> {
       },
       body: JSON.stringify(body),
       signal: controller.signal,
-      // Self-signed cert on the LAN dashboard.
-      tls: { rejectUnauthorized: false },
-    } as RequestInit & { tls: { rejectUnauthorized: boolean } });
+      redirect: 'error',
+      tls: transport.tls,
+    });
 
     if (!res.ok) {
       throw new Error(`Wazuh returned HTTP ${res.status}`);
