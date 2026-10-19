@@ -201,6 +201,8 @@ Choose an Ollama endpoint on your own network for local inference. Claude CLI re
 
 The application polls all configured feeds on `POLL_INTERVAL_MS` (one hour by default). Counts vary over time. CISA KEV requires no authentication; URLhaus and ThreatFox use the Auth-Key from [auth.abuse.ch](https://auth.abuse.ch/).
 
+Feed requests retain their 30-second deadline through response-body reads. See [feed request deadlines](docs/feed-request-deadlines.md) for cancellation behavior, offline evidence and limits.
+
 ## Auto-Defanged Output
 
 Threat intelligence often involves real malicious URLs and IPs. When you paste an AI analysis or threat brief into Microsoft Teams, Slack, or email, those clients flag live malicious links and either block the message or rewrite it. Harbinger automatically defangs all AI output using the industry-standard IOC-sharing convention before returning it.
