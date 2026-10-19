@@ -191,6 +191,11 @@ The **Local** toggle selects Ollama. The **Cloud** toggle follows `ANALYSIS_PROV
 
 Choose an Ollama endpoint on your own network for local inference. Claude CLI requires an authenticated remote session; the direct Anthropic backend uses API credits. No model calls are needed for the offline contributor checks below.
 
+Ollama model discovery has a 30-second request deadline. Chat generation retains
+its 2-minute deadline through response-body reads. The bounds cover asynchronous
+network reads; synchronous JSON parsing is not preempted. See [Ollama request
+deadlines](docs/ollama-request-deadlines.md) for behavior and test limits.
+
 ## Threat Intelligence Feeds
 
 | Feed | Data retrieved |
