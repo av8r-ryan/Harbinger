@@ -260,7 +260,7 @@ Harbinger downloads the public KEV catalog and sends CVE IDs to FIRST.org. Wazuh
 |--------|----------|-------------|
 | GET | `/health` | Health check with IOC count |
 | GET | `/stats` | IOC counts by type, severity, feed |
-| GET | `/feeds` | Feed status and last poll times |
+| GET | `/feeds` | Feed status and last poll times; see [provider response validation](docs/feed-response-validation.md) |
 | POST | `/feeds/poll` | Trigger immediate feed poll |
 | GET | `/iocs?search=&type=&severity=&feed=&limit=&offset=` | Query IOCs with filters |
 | GET | `/iocs/:id` | Get single IOC by ID |
